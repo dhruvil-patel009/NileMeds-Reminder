@@ -1,16 +1,20 @@
 import { View, Text, Button } from 'react-native';
 import React from 'react';
-import { Redirect } from 'expo-router';
-import { signOut } from 'firebase/auth';
-import { auth } from '../../config/FirebaseConfig';
-import {RemoveLocalStorage} from '../../Service/Storage'
+import Header from '../../components/Header';
+import EmptyState from '../../components/EmptyState';
 
-const index = () => {
+export default function HomeScreen() {
   return (
-    <View>
-     
+    <View
+      style={{
+        padding: 20,
+        backgroundColor: 'white',
+        height: '100%',
+        width: '100%',
+      }}
+    >
+      <Header />
+      <EmptyState />
     </View>
   );
-};
-
-export default index;
+}

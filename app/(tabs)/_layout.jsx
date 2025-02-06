@@ -9,19 +9,19 @@ import { getLocalStorage } from '../../Service/Storage';
 export default function TabLayout() {
   // if user login or not
   const router = useRouter();
- 
-  useEffect(()=>{
+
+  useEffect(() => {
     GetUserDetails();
-  },[])
-  
-  const GetUserDetails= async()=>{
+  }, []);
+
+  const GetUserDetails = async () => {
     const userInfo = await getLocalStorage('userDetails');
-    if(!userInfo){
-      router.replace('/login')
+    if (!userInfo) {
+      router.replace('/login');
     }
-    console.log('object====> ', userInfo)
-  }
-  console.log(GetUserDetails)
+    console.log('object====> ', userInfo);
+  };
+  console.log(GetUserDetails);
   return (
     <Tabs
       screenOptions={{

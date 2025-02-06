@@ -28,13 +28,12 @@ const signin = () => {
     }
 
     signInWithEmailAndPassword(auth, email, password)
-      .then(async(userCredential) => {
+      .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user;
         console.log('Login User ===>', user);
         await setLocalStorage('userDetails', user);
-        router.replace('(tabs)')
-        
+        router.replace('(tabs)');
       })
       .catch((error) => {
         const errorCode = error.code;

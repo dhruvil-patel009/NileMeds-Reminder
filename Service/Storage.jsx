@@ -9,6 +9,6 @@ export const getLocalStorage = async (key) => {
   return JSON.parse(result);
 };
 
-export const RemoveLocalStorage=async()=>{
-    await AsyncStorage.clear();
-}
+export const RemoveLocalStorage = async () => {
+  await AsyncStorage.clear();
+};
