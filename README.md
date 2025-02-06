@@ -1,8 +1,10 @@
 1:07:26
 <<<<<<< HEAD
+
 # NileMeds-Reminder
-NileMeds Reminder helps you manage your medication schedule effortlessly. Set reminders for pills, injections, and other medical needs with adjustable time and dates. Stay on track with your prescriptions and never miss a dose again. Simple, reliable, and essential for your health!
-=======
+
+# NileMeds Reminder helps you manage your medication schedule effortlessly. Set reminders for pills, injections, and other medical needs with adjustable time and dates. Stay on track with your prescriptions and never miss a dose again. Simple, reliable, and essential for your health!
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
@@ -53,4 +55,4 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
->>>>>>> b70ed0e (Initial commit)
+  > > > > > > > b70ed0e (Initial commit)
