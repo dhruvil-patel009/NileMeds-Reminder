@@ -4,7 +4,8 @@
     "strict": true,
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": ["node"]
   },
   "include": [
     "**/*.ts",
@@ -14,5 +15,5 @@
     "app/(tabs)/index.jsx",
     "app/(tabs)/Profile.jsx",
     "app/(tabs)/AddNew.jsx"
-  ]
+, "app/_layout.jsx"  ]
 }

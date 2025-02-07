@@ -11,10 +11,10 @@ import React, { useState } from 'react';
 import Colors from '../../constant/Colors';
 import { useRouter } from 'expo-router';
 import { auth } from '../../config/FirebaseConfig';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { setLocalStorage } from '../../Service/Storage';
 
-const signUp = () => {
+const SignUp = () => {
   const router = useRouter();
 
   const [email, setEmail] = useState();
@@ -44,8 +44,9 @@ const signUp = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode);
+        console.log("Errormessage ===>",errorMessage)
 
-        if (errorCode == 'auth/email-already-in-use') {
+        if (errorCode === 'auth/email-already-in-use') {
           ToastAndroid.show('Email Already exist', ToastAndroid.BOTTOM);
         }
         // ..
@@ -104,13 +105,13 @@ const signUp = () => {
   );
 };
 
-export default signUp;
+export default SignUp;
 
 const styles = StyleSheet.create({
   textheader: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginTopL: 15,
+    marginTop: 15,
   },
   subText: {
     fontSize: 30,

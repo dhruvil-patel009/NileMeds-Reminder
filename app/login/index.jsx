@@ -1,10 +1,9 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import Colors from '../../constant/Colors';
-import { Touchable } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export default function LoginScreen() {
+const LoginScreen = () => {
   const router = useRouter();
   return (
     <View>
@@ -70,6 +69,8 @@ export default function LoginScreen() {
     </View>
   );
 }
+export default LoginScreen;
+
 
 const styles = StyleSheet.create({
   image: {

@@ -1,9 +1,6 @@
 import { Tabs, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import React, { useEffect } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../config/FirebaseConfig';
 import { getLocalStorage } from '../../Service/Storage';
 
 export default function TabLayout() {
@@ -12,7 +9,7 @@ export default function TabLayout() {
 
   useEffect(() => {
     GetUserDetails();
-  }, []);
+  });
 
   const GetUserDetails = async () => {
     const userInfo = await getLocalStorage('userDetails');

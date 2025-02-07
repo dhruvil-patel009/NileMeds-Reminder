@@ -28,7 +28,7 @@ export default function EmptyState() {
   );
 }
 
-const styles = (StyleSheet.create = {
+const styles = StyleSheet.create({
   EState: {
     marginTop: 80,
     display: 'flex',

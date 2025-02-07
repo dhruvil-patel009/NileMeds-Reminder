@@ -14,10 +14,10 @@ import { auth } from '../../config/FirebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { setLocalStorage } from '../../Service/Storage';
 
-const signin = () => {
+const Signin = () => {
   const router = useRouter();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const OnSignInClick = () => {
     if (!email || !password) {
@@ -38,8 +38,10 @@ const signin = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.log("Errormessage ===>",errorMessage)
 
-        if (errorCode == 'auth/invalied-creaential') {
+
+        if (errorCode === 'auth/invalied-creaential') {
           Alert.alert('Invalid email or password');
         }
       });
@@ -89,13 +91,13 @@ const signin = () => {
   );
 };
 
-export default signin;
+export default Signin;
 
 const styles = StyleSheet.create({
   textheader: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginTopL: 15,
+    marginTop: 15,
   },
   subText: {
     fontSize: 30,
