@@ -32,9 +32,16 @@ const SignUp = () => {
         const user = userCredential.user;
 
         await updateProfile(user, {
-          displayName: userName,
+          displayName: userName
         });
-        await setLocalStorage('userDetails', user);
+        
+        // Store user details manually in local storage
+        const userData = {
+          uid: user.uid,
+          email: user.email,
+          displayName: userName,
+        };
+        await setLocalStorage('userDetails', userData);
 
         console.log('User ===>', user);
         router.push('(tabs)');
