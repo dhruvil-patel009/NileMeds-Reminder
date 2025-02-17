@@ -14,6 +14,7 @@
     "expo-env.d.ts",
     "app/(tabs)/index.jsx",
     "app/(tabs)/Profile.jsx",
-    "app/(tabs)/AddNew.jsx"
-, "app/_layout.jsx"  ]
+    "app/(tabs)/AddNew.jsx",
+    "app/_layout.jsx"
+  ]
 }

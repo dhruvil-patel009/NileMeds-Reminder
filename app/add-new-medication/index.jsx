@@ -6,8 +6,8 @@ import AddMedicationForm from '../../components/AddMedicationForm';
 export default function AddNewMediciation() {
   return (
     <View>
-     <AddMedicationHeader/>
-     <AddMedicationForm/>
+      <AddMedicationHeader />
+      <AddMedicationForm />
     </View>
   );
 }

@@ -1,86 +1,136 @@
-import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import React, { useState } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Colors from '../constant/Colors';
-import {TypeList} from '../constant/options'
+import { TypeList, WhenToTake } from '../constant/options';
+import { Picker } from '@react-native-picker/picker';
 
 
 export default function AddMedicationForm() {
+  const [formData, setFormData] = useState();
 
-    const [formData, setFormData] = useState();
+  const onHandleInputChange = (filed, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [filed]: value,
+    }));
 
-    const onHandleInputChange= (filed, value)=>{
-        setFormData(prev=>({
-            ...prev,
-            [filed]:value
-        }))
-
-        console.log(formData)
-    }
+    console.log(formData);
+  };
   return (
-    <View style={{padding:25}}>
-
+    <View style={{ padding: 25 }}>
       <Text style={styles?.header}>Add New Medication</Text>
 
       <View style={styles?.Inputgroup}>
-      <Ionicons style={styles.icon} name="medkit-outline" size={24} />
+        <Ionicons style={styles.icon} name="medkit-outline" size={24} />
 
-      <TextInput style={styles?.textInput} placeholder='Medicine Name'
-        onChangeText={(value)=>onHandleInputChange('name', value)}
+        <TextInput
+          style={styles?.textInput}
+          placeholder="Medicine Name"
+          onChangeText={(value) => onHandleInputChange('name', value)}
+        />
+      </View>
+
+      {/* Type list  */}
+
+      <FlatList
+        data={TypeList}
+        horizontal
+        style={{ marginTop: 15 }}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            style={[
+              styles?.Inputgroup,
+              { marginRight: 10 },
+              {
+                backgroundColor:
+                  item.name == formData?.type?.name ? Colors.PRIMARY : 'white',
+              },
+            ]}
+            onPress={() => onHandleInputChange('type', item)}
+          >
+            <Text
+              style={[
+                styles?.typeText,
+                {
+                  color: item.name == formData?.type?.name ? 'white' : 'black',
+                },
+              ]}
+            >
+              {item?.name}
+            </Text>
+          </TouchableOpacity>
+        )}
       />
 
-</View>
+      {/* Does input */}
+      <View style={styles?.Inputgroup}>
+        <Ionicons style={styles.icon} name="eyedrop-outline" size={24} />
 
-{/* Type list  */}
+        <TextInput
+          style={styles?.textInput}
+          placeholder="Does Ex. 2, 5ml"
+          onChangeText={(value) => onHandleInputChange('does', value)}
+        />
+      </View>
 
-<FlatList
-    data={TypeList}
-    horizontal
-    style={{marginTop:15}}
-    showsHorizontalScrollIndicator={false}
-    renderItem={({item, index}) =>(
-        <TouchableOpacity style={[styles?.Inputgroup, {marginRight:10},
-            {backgroundColor:item.name==formData?.type?.name?Colors.PRIMARY:'white'}
-        ]} 
-        onPress={()=>onHandleInputChange('type',item)}
-        
+      {/* When to take Dropdown  */}
+      <View style={styles?.Inputgroup}>
+        <Ionicons style={styles.icon} name="time-outline" size={24} />
+        <Picker
+          selectedValue={formData?.when}
+          onValueChange={(itemValue, itemIndex) =>
+            onHandleInputChange('when', itemValue)
+          }
+          style={{
+            width: '90%'
+          }}
         >
-            <Text style={styles?.typeText}>{item?.name}</Text>
-            </TouchableOpacity>
-    )}
-/>
-
+          {WhenToTake.map((item, index) => {
+            <Picker.Item key={index} label={item} value={item} />;
+          })}
+        </Picker>
+      </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-    header:{
-        fontSize:25,
-        fontWeight:'bold'
-    },
-    Inputgroup:{
-        display:'flex',
-        flexDirection:'row',
-        alignItems:'center',
-        padding:12,
-        borderRadius:8,
-        borderWidth:1,
-        borderColor: Colors?.LIGHT_GRAY_BORDER,
-        marginTop:7
-    },
-    textInput:{
-        flex:1,
-        marginLeft:10,
-        fontSize:16
-    },
-    icon:{
-        color:Colors?.PRIMARY,
-        borderRightWidth:1,
-        paddingRight:12,
-        borderColor:Colors?.GRAY
-    },
-    typeText:{
-        fontSize:16
-    }
-})
+  header: {
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  Inputgroup: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: Colors?.LIGHT_GRAY_BORDER,
+    marginTop: 7,
+    backgroundColor: 'white',
+  },
+  textInput: {
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 16,
+  },
+  icon: {
+    color: Colors?.PRIMARY,
+    borderRightWidth: 1,
+    paddingRight: 12,
+    borderColor: Colors?.GRAY,
+  },
+  typeText: {
+    fontSize: 16,
+  },
+});

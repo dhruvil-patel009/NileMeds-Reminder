@@ -38,8 +38,7 @@ const Signin = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("Errormessage ===>",errorMessage)
-
+        console.log('Errormessage ===>', errorMessage);
 
         if (errorCode === 'auth/invalied-creaential') {
           Alert.alert('Invalid email or password');

@@ -32,9 +32,9 @@ const SignUp = () => {
         const user = userCredential.user;
 
         await updateProfile(user, {
-          displayName: userName
+          displayName: userName,
         });
-        
+
         // Store user details manually in local storage
         const userData = {
           uid: user.uid,
@@ -51,7 +51,7 @@ const SignUp = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode);
-        console.log("Errormessage ===>",errorMessage)
+        console.log('Errormessage ===>', errorMessage);
 
         if (errorCode === 'auth/email-already-in-use') {
           ToastAndroid.show('Email Already exist', ToastAndroid.BOTTOM);
