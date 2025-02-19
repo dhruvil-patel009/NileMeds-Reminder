@@ -5,6 +5,8 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, { useState } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -12,14 +14,25 @@ import Colors from '../constant/Colors';
 import { TypeList, WhenToTake } from '../constant/options';
 import { Picker } from '@react-native-picker/picker';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import { FormatDate, formatDateForText, formatTime } from '../Service/ConvertDateTime';
+import {
+  FormatDate,
+  formatDateForText,
+  formatTime,
+  getDatesRange,
+} from '../Service/ConvertDateTime';
+import { db } from '../config/FirebaseConfig';
+import { getLocalStorage } from '../Service/Storage';
+import { setDoc, doc } from 'firebase/firestore';
+import { useRouter } from 'expo-router';
 
 export default function AddMedicationForm() {
   const [formData, setFormData] = useState();
 
   const [showStartDate, setShowStartDate] = useState(false);
   const [showEndDate, setShowEndDate] = useState(false);
-  const [showTimePicker, setShowTimePicker]= useState(false)  
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const onHandleInputChange = (filed, value) => {
     setFormData((prev) => ({
@@ -28,6 +41,49 @@ export default function AddMedicationForm() {
     }));
 
     console.log(formData);
+  };
+
+  const SaveMedication = async () => {
+    // console.log('Pressed')
+    const docId = Date.now().toString();
+    console.log('Pressed again');
+    const user = await getLocalStorage('userDetails');
+    if (
+      !(
+        formData?.name ||
+        formData?.type ||
+        formData?.does ||
+        formData?.startDate ||
+        formData?.endDate ||
+        formData?.reminder
+      )
+    ) {
+      Alert.alert('Enter All Fileds');
+      return;
+    }
+
+    const dates = getDatesRange(formData?.startDate,formData.endDate);
+    console.log(dates);
+    setLoading(true);
+    try {
+      await setDoc(doc(db, 'medication', docId), {
+        ...formData,
+        userEmail: user?.email,
+        docId: docId,
+        dates:dates
+      });
+      console.log('Data Saved');
+      setLoading(false);
+      Alert.alert('Great!', 'New Medication Added SuccessFully!', [
+        {
+          text: 'Ok',
+          onPress: () => router.push('(tabs)'),
+        },
+      ]);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
   return (
     <View style={{ padding: 25 }}>
@@ -159,23 +215,31 @@ export default function AddMedicationForm() {
         >
           <Ionicons style={styles.icon} name="timer-outline" size={24} />
           <Text style={styles.text}>
-            {formData?.reminder??'Select Reminder Time'}
+            {formData?.reminder ?? 'Select Reminder Time'}
           </Text>
         </TouchableOpacity>
-        
-        </View>
-        {showTimePicker && <RNDateTimePicker
-        mode='time'
-        onChange={(event)=>{
-            onHandleInputChange('reminder',formatTime(event.nativeEvent.timestamp))
-            setShowTimePicker(false)
-        }}
-        value={new Date(formData?.reminder)?? new Date()}
-        />}
+      </View>
+      {showTimePicker && (
+        <RNDateTimePicker
+          mode="time"
+          onChange={(event) => {
+            onHandleInputChange(
+              'reminder',
+              formatTime(event.nativeEvent.timestamp),
+            );
+            setShowTimePicker(false);
+          }}
+          value={new Date(formData?.reminder) ?? new Date()}
+        />
+      )}
 
-        <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttontext}>Add New Medication</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={SaveMedication}>
+        {loading ? (
+          <ActivityIndicator size={'large'} color={'white'} />
+        ) : (
+          <Text style={styles.buttontext}>Add New Medication</Text>
+        )}
+      </TouchableOpacity>
     </View>
   );
 }
@@ -220,16 +284,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
   },
-  button:{
-    marginTop:15,
-    padding:15,
+  button: {
+    marginTop: 25,
+    padding: 15,
     backgroundColor: Colors.PRIMARY,
-    borderRadius:15,
-    width:'100%'
+    borderRadius: 15,
+    width: '100%',
   },
-  buttontext:{
-    fontSize:17,
-    color:'white',
-    textAlign:'center'
-  }
+  buttontext: {
+    fontSize: 17,
+    color: 'white',
+    textAlign: 'center',
+  },
 });
