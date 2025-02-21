@@ -62,7 +62,7 @@ export default function AddMedicationForm() {
       return;
     }
 
-    const dates = getDatesRange(formData?.startDate,formData.endDate);
+    const dates = getDatesRange(formData?.startDate, formData.endDate);
     console.log(dates);
     setLoading(true);
     try {
@@ -70,7 +70,7 @@ export default function AddMedicationForm() {
         ...formData,
         userEmail: user?.email,
         docId: docId,
-        dates:dates
+        dates: dates,
       });
       console.log('Data Saved');
       setLoading(false);
