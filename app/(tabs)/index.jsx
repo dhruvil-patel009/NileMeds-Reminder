@@ -1,12 +1,11 @@
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import React from 'react';
 import Header from '../../components/Header';
-import EmptyState from '../../components/EmptyState';
 import MedicationList from '../../components/MedicationList';
 
 export default function HomeScreen() {
   return (
-    <View
+    <ScrollView
       style={{
         padding: 20,
         backgroundColor: 'white',
@@ -15,8 +14,7 @@ export default function HomeScreen() {
       }}
     >
       <Header />
-      {/* <EmptyState /> */}
       <MedicationList />
-    </View>
+    </ScrollView>
   );
 }

@@ -27,9 +27,9 @@ export default function MedicationCardItem({ medicine }) {
           </Text>
         </View>
       </View>
-      <View>
+      <View style={styles.reminderContainer}>
       <Ionicons style={styles.icon} name="timer-outline" size={24} />
-        <Text>{medicine?.reminder}</Text>
+        <Text style={{fontWeight:'bold', fontSize:18}}>{medicine?.reminder}</Text>
       </View>
     </View>
   );
@@ -38,7 +38,9 @@ export default function MedicationCardItem({ medicine }) {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor:Colors.LIGHT_PRIMARY,
+    // backgroundColor:Colors.LIGHT_PRIMARY,
+    borderWidth:1,
+    borderColor:Colors.LIGHT_GRAY_BORDER,
     marginTop:10,
     borderRadius:15,
     flexDirection:'row',
@@ -56,4 +58,13 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginRight:15
   },
+  reminderContainer:{
+    padding:12,
+    backgroundColor: 'white',
+    borderRadius:15,
+    alignItems:'center',
+    borderWidth:1,
+    borderColor:Colors.LIGHT_GRAY_BORDER,
+
+  }
 });
