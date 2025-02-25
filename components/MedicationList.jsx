@@ -18,13 +18,13 @@ import EmptyState from './EmptyState';
 import { useRouter } from 'expo-router';
 
 export default function MedicationList() {
-  const router = useRouter()
+  const router = useRouter();
   const [medList, setMedList] = useState([]);
   const [dateRange, setDateRange] = useState();
   const [selectedDate, setSelectedDate] = useState(
     moment().format('MM/DD/YYYY'),
   );
-  const[loading,setLoading]= useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     GetDateRangeList();
@@ -38,7 +38,7 @@ export default function MedicationList() {
   };
 
   const GetMedicationList = async (selectedDate) => {
-    setLoading(true)
+    setLoading(true);
     const user = await getLocalStorage('userDetails');
     setMedList([]);
 
@@ -54,11 +54,10 @@ export default function MedicationList() {
         console.log('docId:' + doc.id + '==>', doc.data());
         setMedList((prev) => [...prev, doc.data()]);
       });
-      setLoading(false)
+      setLoading(false);
     } catch (e) {
       console.log(e);
-      setLoading(false)
-
+      setLoading(false);
     }
   };
   return (
@@ -84,9 +83,9 @@ export default function MedicationList() {
                     : Colors.LIGHT_GRAY_BORDER,
               },
             ]}
-            onPress={() => {setSelectedDate(item.formattedDate)
-              GetMedicationList(item.formattedDate)
-
+            onPress={() => {
+              setSelectedDate(item.formattedDate);
+              GetMedicationList(item.formattedDate);
             }}
           >
             <Text
@@ -115,24 +114,30 @@ export default function MedicationList() {
         )}
       />
 
-      {medList.length>0?<FlatList
-        data={medList}
-        onRefresh={()=> GetMedicationList(selectedDate)}
-        refreshing={loading}
-        renderItem={({ item, index }) => ( 
-        <TouchableOpacity onPress={()=>router.push({
-          pathname:'/action-modal',
-          params:{
-            ...item,
-            selectedDate:selectedDate
-          }
-          })} >
-
-        <MedicationCardItem medicine={item} />
-        </TouchableOpacity>
-        )}
-      />
-      :<EmptyState/>}
+      {medList.length > 0 ? (
+        <FlatList
+          data={medList}
+          onRefresh={() => GetMedicationList(selectedDate)}
+          refreshing={loading}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity
+              onPress={() =>
+                router.push({
+                  pathname: '/action-modal',
+                  params: {
+                    ...item,
+                    selectedDate: selectedDate,
+                  },
+                })
+              }
+            >
+              <MedicationCardItem medicine={item} selectedDate={selectedDate} />
+            </TouchableOpacity>
+          )}
+        />
+      ) : (
+        <EmptyState />
+      )}
     </View>
   );
 }

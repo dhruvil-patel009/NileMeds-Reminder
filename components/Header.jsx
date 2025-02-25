@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router';
 
 export default function Header() {
   const [user, setUser] = useState();
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
     GetUserDetails();
   }, []);
@@ -30,8 +30,8 @@ export default function Header() {
             Hello {user?.displayName} 👋
           </Text>
         </View>
-        <TouchableOpacity onPress={()=>router.push('/add-new-medication')}>
-        <Ionicons name="medkit-outline" size={34} color={Colors.PRIMARY} />
+        <TouchableOpacity onPress={() => router.push('/add-new-medication')}>
+          <Ionicons name="medkit-outline" size={34} color={Colors.PRIMARY} />
         </TouchableOpacity>
       </View>
     </View>
