@@ -42,3 +42,18 @@ export const GetDateRangeToDisplay = () => {
 
   return dateList;
 };
+
+export const GetPrevDateRangeToDisplay = () => {
+  const dates = [];
+  for (let i = 0; i <= 7; i++) {
+
+    const date=moment().subtract(i,'days');
+    dates.push({
+      date: date.format('DD'), // return a Days 25,26
+      day: date.format('dd'), // Monday,Tuesday
+      formattedDate: date.format('L'), // 1/27/2025
+    });
+  }
+
+  return dates;
+};
