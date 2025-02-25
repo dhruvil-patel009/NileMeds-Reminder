@@ -12,7 +12,7 @@ export default function MedicationCardItem({ medicine, selectedDate = '' }) {
   }, [medicine]);
 
   const CheckedStatus = () => {
-    const actions = medicine?.action ?? [];  // Default to an empty array if undefined
+    const actions = medicine?.action ?? []; // Default to an empty array if undefined
 
     const data = actions?.find((item) => item.date == selectedDate);
     console.log('==', data);

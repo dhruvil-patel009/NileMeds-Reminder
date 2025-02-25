@@ -46,8 +46,7 @@ export const GetDateRangeToDisplay = () => {
 export const GetPrevDateRangeToDisplay = () => {
   const dates = [];
   for (let i = 0; i <= 7; i++) {
-
-    const date=moment().subtract(i,'days');
+    const date = moment().subtract(i, 'days');
     dates.push({
       date: date.format('DD'), // return a Days 25,26
       day: date.format('dd'), // Monday,Tuesday
