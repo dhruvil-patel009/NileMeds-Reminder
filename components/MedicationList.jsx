@@ -17,7 +17,7 @@ import MedicationCardItem from '../components/MedicationCardItem';
 import EmptyState from './EmptyState';
 
 export default function MedicationList() {
-  const [medList, setMedList] = useState();
+  const [medList, setMedList] = useState([]);
   const [dateRange, setDateRange] = useState();
   const [selectedDate, setSelectedDate] = useState(
     moment().format('MM/DD/YYYY'),
