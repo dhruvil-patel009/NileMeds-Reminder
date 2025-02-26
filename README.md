@@ -56,3 +56,46 @@ Join our community of developers creating universal apps.
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
   > > > > > > > b70ed0e (Initial commit)
+
+
+# 📱 Convert AAB to APK
+
+Easily convert an Android App Bundle (`.aab`) file to an APK file using **BundleTool**.
+
+## 🚀 Steps to Convert AAB to APK
+
+### 1️⃣ Install BundleTool
+First, download and install **BundleTool** from the official source.
+
+### 2️⃣ Prepare Your Files
+- Create a new folder.
+- Place both `bundletool.jar` and your `.aab` file inside this folder.
+
+### 3️⃣ Open Terminal
+- Navigate to the folder where you placed the files using the terminal.
+
+### 4️⃣ Run the Command
+Execute the following command:
+
+```sh
+java -jar bundletool.jar build-apks --bundle=your_app.aab --output=output_filename.apks --mode=universal
+```
+
+🔹 **Replace:**  
+- `bundletool.jar` with the actual filename of your bundle tool.  
+- `your_app.aab` with your `.aab` file.  
+- `output_filename.apks` with your desired output file name.  
+
+### 5️⃣ Extract APK
+Once the command runs successfully, you will get an `.apks` file. Extract it using a file manager or this command:
+
+```sh
+unzip output_filename.apks -d output_folder
+```
+
+Inside the extracted folder, you will find your APK file ready to install. ✅
+
+## 🎯 Done!
+You have successfully converted your `.aab` file to an `.apk` file. 🎉
+
+
