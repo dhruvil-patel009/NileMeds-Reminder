@@ -11,7 +11,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import MedicationCardItem from '../../components/MedicationCardItem';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constant/Colors';
-import { doc, arrayUnion, updateDoc } from 'firebase/firestore';
+import { doc, arrayUnion, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../config/FirebaseConfig';
 import moment from 'moment';
 
@@ -22,22 +22,48 @@ export default function MedicationActionModal() {
   const UpdateActionStatus = async (status) => {
     try {
       const docRef = doc(db, 'medication', medicine?.docId);
-      await updateDoc(docRef, {
-        action: arrayUnion({
-          status: status,
-          time: moment().format('LT'),
-          date: medicine?.selectedDate,
-        }),
-      });
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const existingActions = docSnap.data().action || [];
+        
+        // Check if an action already exists for the selected date
+        const existingAction = existingActions.find(
+          (action) => action.date === medicine?.selectedDate
+        );
+
+        // If action already exists, update it, else add a new action
+        if (existingAction) {
+          // Update the status if it already exists for that date
+          const updatedActions = existingActions.map((action) =>
+            action.date === medicine?.selectedDate
+              ? { ...action, status: status, time: moment().format('LT') }
+              : action
+          );
+          await updateDoc(docRef, { action: updatedActions });
+        } else {
+          // Add new action if not found for the date
+          await updateDoc(docRef, {
+            action: arrayUnion({
+              status: status,
+              time: moment().format('LT'),
+              date: medicine?.selectedDate,
+            }),
+          });
+        }
+      }
+
       Alert.alert(status, 'Response Saved!', [
         {
           text: 'Ok',
           onPress: () => router.replace('(tabs)'),
         },
       ]);
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error updating action status: ', error);
+    }
   };
-  // console.log(medicine)
+
   return (
     <View style={styles.container}>
       <Image

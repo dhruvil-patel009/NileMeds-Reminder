@@ -39,8 +39,8 @@ export default function MedicationList() {
 
   const GetMedicationList = async (selectedDate) => {
     setLoading(true);
-    const user = await getLocalStorage('userDetails');
     setMedList([]);
+    const user = await getLocalStorage('userDetails');
 
     // console.log('user data ====>',user)
     try {
@@ -50,16 +50,21 @@ export default function MedicationList() {
         where('dates', 'array-contains', selectedDate),
       );
       const querySnapshot = await getDocs(q);
+      const meds = []; // Temporary array to hold medications
       querySnapshot.forEach((doc) => {
         console.log('docId:' + doc.id + '==>', doc.data());
-        setMedList((prev) => [...prev, doc.data()]);
+        meds.push(doc.data());
+        // setMedList((prev) => [...prev, doc.data()]);
       });
+      setMedList(meds); 
       setLoading(false);
     } catch (e) {
       console.log(e);
       setLoading(false);
     }
   };
+
+  
   return (
     <View style={styles.EState}>
       <Image

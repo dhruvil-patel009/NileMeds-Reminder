@@ -78,9 +78,7 @@ export default function Profile() {
       {/* Profile Section */}
       <View style={styles.profileContainer}>
         <Image
-          source={{
-            uri: 'https://cdn-icons-png.flaticon.com/512/2583/2583331.png',
-          }}
+          source={require('../../assets/images/profile.png')}
           style={styles.profileImage}
         />
         <Text style={styles.profileName}>{user?.displayName}</Text>
@@ -131,12 +129,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   profileName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   profileEmail: {
-    fontSize: 14,
-    color: 'gray',
+    fontSize: 16,
+    color: '#646363',
   },
   menuContainer: {
     marginTop: 20,

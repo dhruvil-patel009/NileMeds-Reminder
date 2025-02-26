@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   },
   imageBanner: {
     width: '100%',
-    height: 200,
+    height: 300,
     borderRadius: 15,
   },
   header: {

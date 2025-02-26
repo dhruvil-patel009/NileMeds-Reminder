@@ -8,15 +8,16 @@ export default function MedicationCardItem({ medicine, selectedDate = '' }) {
   const [status, Setstatus] = useState();
 
   useEffect(() => {
-    CheckedStatus();
+    if (medicine?.action) {
+      CheckedStatus();
+    }
   }, [medicine]);
 
   const CheckedStatus = () => {
-    const actions = medicine?.action ?? []; // Default to an empty array if undefined
-
-    const data = actions?.find((item) => item.date == selectedDate);
-    console.log('==', data);
-    Setstatus(data);
+    const actions = Array.isArray(medicine?.action) ? medicine.action : []; // Ensure it's always an array
+  const data = actions.find((item) => item.date == selectedDate);
+  console.log('==', data);
+  Setstatus(data);
   };
   return (
     <View style={styles?.container}>
