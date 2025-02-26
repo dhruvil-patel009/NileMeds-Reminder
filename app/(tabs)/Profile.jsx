@@ -3,10 +3,15 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getLocalStorage } from '@/Service/Storage';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Colors from '@/constant/Colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getAuth, signOut } from 'firebase/auth'; // Import Firebase Auth
 
 export default function Profile() {
   const router = useRouter();
     const [user, setUser] = useState();
+    const auth = getAuth(); // Initialize Firebase Auth
     useEffect(() => {
       GetUser();
     }, []);
@@ -16,7 +21,7 @@ export default function Profile() {
       setUser(UserInfo);
     };
 
-  const Menu = [
+  const item = [
     {
       id: 1,
       name: 'Add New Medication',
@@ -33,7 +38,7 @@ export default function Profile() {
       id: 3, 
       name: 'History', 
       icon: 'time', 
-      path: 'history' },
+      path: 'History', },
     { 
       id: 4, 
       name: 'Logout', 
@@ -45,19 +50,23 @@ export default function Profile() {
   //   router.push(Menu.path);
   //   console.log('pushiung',Menu)
   // };
-  const onPressMenu = async (Menu) => {
-    console.log('Navigating to:', Menu.path);
+  const onPressMenu = async (item) => {
+    console.log('Navigating to:', item.path);
   
-    if (Menu.path == 'logout') {
-      // Clear storage before navigating
-      await AsyncStorage.removeItem('userDetails');
-      router.replace('/login'); // Replace instead of push to prevent going back
+    if (item.path === 'logout') {
+      try {
+        await signOut(auth); // Firebase logout
+        await AsyncStorage.removeItem('userDetails'); // Clear local storage
+        router.replace('login'); // Redirect to login page
+      } catch (error) {
+        console.error('Logout error:', error.message);
+      }
       return;
     }
-    console.log('Navigating to again:', Menu.path);
-    router.push(Menu.path);
+    console.log('Navigating to again:', item.path);
+    router.push(item.path);
 
-    console.log('Navigating to:', Menu.path);
+    console.log('Navigating to:', item.path);
 
     
   };
@@ -80,13 +89,17 @@ export default function Profile() {
 
       {/* Menu Items */}
       <View style={styles.menuContainer}>
-        {Menu.map((item) => (
+        {item.map((item) => (
           <TouchableOpacity
             key={item.id}
             style={styles.menuItem}
             onPress={() => onPressMenu(item)}
           >
-            <Icon name={item.icon} size={24} color="#007AFF" />
+            <Ionicons name={item?.icon} size={24} color={Colors.PRIMARY} style={{
+              padding:10,
+              backgroundColor: Colors.LIGHT_PRIMARY,
+              borderRadius:10
+            }} />
             <Text style={styles.menuText}>{item.name}</Text>
           </TouchableOpacity>
         ))}
@@ -137,7 +150,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   menuText: {
-    fontSize: 16,
+    fontSize: 20,
+    fontFamily: 'outfit',
     marginLeft: 10,
     fontWeight: '500',
   },
